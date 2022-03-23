@@ -2,25 +2,25 @@ import { render, screen } from '@testing-library/react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import ContactList from '.';
 
-
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 
 jest.mock('react-firebase-hooks/firestore', () => {
-  return { useCollection: jest.fn() }
+  return { useCollection: jest.fn() };
 });
 
 jest.mock('firebase/firestore', () => {
-  return { collection: jest.fn() }
+  return { collection: jest.fn() };
 });
 
 jest.mock('../../Hooks', () => {
   return {
     useFirestore: jest.fn(),
     useStorage: jest.fn(),
+    useContactRef: jest.fn(),
     useAppToast: () => ({}),
-  }
+  };
 });
 
 const randomContact = () => {
@@ -34,67 +34,57 @@ const randomContact = () => {
     age: `age ${uniqueId}`,
     website: `website ${uniqueId}`,
     email: `email ${uniqueId}`,
-  }
-}
+  };
+};
 const mockedFireDocs = {
-  docs: [{
-    id: 1,
-    data: randomContact
-  },
-  {
-    id: 2,
-    data: randomContact
-  },
-  ]
+  docs: [
+    {
+      id: 1,
+      data: randomContact,
+    },
+    {
+      id: 2,
+      data: randomContact,
+    },
+  ],
 };
 
 describe('ContactList component', () => {
   test('Should be defined', async () => {
-    (useCollection as jest.Mock).mockImplementation(() => [])
+    (useCollection as jest.Mock).mockImplementation(() => []);
 
-    const component = render(
-      <ContactList />
-    );
+    const component = render(<ContactList />);
 
     expect(component).toBeDefined();
   });
 
   test('Should render loading state', async () => {
-    (useCollection as jest.Mock).mockImplementation(() => [, true])
+    (useCollection as jest.Mock).mockImplementation(() => [, true]);
 
-    render(
-      <ContactList />
-    );
+    render(<ContactList />);
 
     expect(screen.queryByTestId('contacts--loading')).toBeInTheDocument();
     expect(screen.queryByTestId('contacts--error')).not.toBeInTheDocument();
     expect(screen.queryByTestId('contacts--fetched')).not.toBeInTheDocument();
   });
 
-
   test('Should render fetched state', async () => {
-    (useCollection as jest.Mock).mockImplementation(() => [mockedFireDocs, false])
+    (useCollection as jest.Mock).mockImplementation(() => [mockedFireDocs, false]);
 
-    render(
-      <ContactList />
-    );
+    render(<ContactList />);
 
     expect(screen.queryByTestId('contacts--loading')).not.toBeInTheDocument();
     expect(screen.queryByTestId('contacts--error')).not.toBeInTheDocument();
     expect(screen.queryByTestId('contacts--fetched')).toBeInTheDocument();
   });
 
-
   test('Should render error state', async () => {
-    (useCollection as jest.Mock).mockImplementation(() => [, false, { error: true }])
+    (useCollection as jest.Mock).mockImplementation(() => [, false, { error: true }]);
 
-    render(
-      <ContactList />
-    );
+    render(<ContactList />);
 
     expect(screen.queryByTestId('contacts--loading')).not.toBeInTheDocument();
     expect(screen.queryByTestId('contacts--error')).toBeInTheDocument();
     expect(screen.queryByTestId('contacts--fetched')).not.toBeInTheDocument();
   });
-
 });
