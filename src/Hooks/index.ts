@@ -8,12 +8,12 @@ import { useToast, UseToastOptions } from "@chakra-ui/react";
 
 // firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBAyE3uSGux5NbJGX939F9dv_4r_KU6OWE",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "keyko-contact.firebaseapp.com",
   projectId: "keyko-contact",
   storageBucket: "keyko-contact.appspot.com",
-  messagingSenderId: "1087198403044",
-  appId: "1:1087198403044:web:c126bfa5cf409eef7acff1"
+  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
