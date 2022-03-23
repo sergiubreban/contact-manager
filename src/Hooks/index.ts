@@ -1,19 +1,18 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { useToast, UseToastOptions } from "@chakra-ui/react";
-
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+import { useToast, UseToastOptions } from '@chakra-ui/react';
 
 // firebase configuration
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: "keyko-contact.firebaseapp.com",
-  projectId: "keyko-contact",
-  storageBucket: "keyko-contact.appspot.com",
+  authDomain: 'keyko-contact.firebaseapp.com',
+  projectId: 'keyko-contact',
+  storageBucket: 'keyko-contact.appspot.com',
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
@@ -23,10 +22,10 @@ const app = initializeApp(firebaseConfig);
 const useFirebaseApp = () => app;
 
 // firebase db instance
-const useFirestore = () => getFirestore(app)
+const useFirestore = () => getFirestore(app);
 
 // firebase storage instance
-const useStorage = () => getStorage(app)
+const useStorage = () => getStorage(app);
 
 /**
  * Extends chakra UI Toast component to add custom logic to generic notifications.
@@ -36,12 +35,6 @@ const useAppToast = () => {
   const toast = useToast();
 
   return (options?: UseToastOptions | undefined) => toast({ ...options, isClosable: options?.isClosable ?? true });
-}
+};
 
-
-export {
-  useFirebaseApp,
-  useFirestore,
-  useStorage,
-  useAppToast
-}
+export { useFirebaseApp, useFirestore, useStorage, useAppToast };
