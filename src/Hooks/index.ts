@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { collection, getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { useToast, UseToastOptions } from '@chakra-ui/react';
 
@@ -24,6 +24,12 @@ const useFirebaseApp = () => app;
 // firebase db instance
 const useFirestore = () => getFirestore(app);
 
+// firebase contact collection
+const useContactRef = () => {
+  const firestore = useFirestore();
+  return collection(firestore, 'Contact');
+};
+
 // firebase storage instance
 const useStorage = () => getStorage(app);
 
@@ -37,4 +43,4 @@ const useAppToast = () => {
   return (options?: UseToastOptions | undefined) => toast({ ...options, isClosable: options?.isClosable ?? true });
 };
 
-export { useFirebaseApp, useFirestore, useStorage, useAppToast };
+export { useFirebaseApp, useFirestore, useStorage, useAppToast, useContactRef };
