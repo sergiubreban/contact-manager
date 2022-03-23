@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Center, Flex, Image, Stack, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { getDownloadURL, ref } from 'firebase/storage';
@@ -6,7 +6,10 @@ import { useStorage } from '../../Hooks';
 import { Contact } from '../../types';
 import { shortenAddress } from '../../Utils';
 
-const ContactPanel: FC<{ contact: Contact }> = ({ contact }) => {
+interface ContactPanelProps {
+  contact: Contact;
+}
+const ContactPanel = ({ contact }: ContactPanelProps) => {
   const { name, lastName, publicAddress, phone, email, profilePic } = contact;
   const [avatarLink, setAvatarLink] = useState('');
   const storage = useStorage();
