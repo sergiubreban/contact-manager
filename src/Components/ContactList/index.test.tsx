@@ -18,7 +18,8 @@ jest.mock('../../Hooks', () => {
   return {
     useFirestore: jest.fn(),
     useStorage: jest.fn(),
-    useContactRef: jest.fn(),
+    useNewContactRef: jest.fn(),
+    useContactDocRef: jest.fn(),
     useAppToast: () => ({}),
     useMetamask: () => 'fake address',
   };

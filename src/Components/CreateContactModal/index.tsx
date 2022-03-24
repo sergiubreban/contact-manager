@@ -12,7 +12,7 @@ import {
 import { addDoc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useTranslation } from 'react-i18next';
-import { useAppToast, useContactRef, useStorage } from '../../Hooks';
+import { useAppToast, useNewContactRef, useStorage } from '../../Hooks';
 import { ContactFormData, CreateContactModalProps } from '../../Types';
 import { IoIosAddCircle } from 'react-icons/io';
 import ContactForm from '../ContactForm';
@@ -20,7 +20,7 @@ import ContactForm from '../ContactForm';
 const CreateContactModal = ({ distinctTags, showUseWalletSwitch }: CreateContactModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
-  const contactModelRef = useContactRef();
+  const contactModelRef = useNewContactRef();
   const storage = useStorage();
   const toast = useAppToast();
   const { t } = useTranslation();

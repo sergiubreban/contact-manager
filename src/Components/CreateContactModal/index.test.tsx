@@ -6,6 +6,7 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 
+const mockedAddress = '0x0000000000000000000000000000000000000000';
 describe('CreateContactModal component', () => {
   test('Should be defined', async () => {
     const component = render(
@@ -28,6 +29,9 @@ describe('CreateContactModal component', () => {
 
     fireEvent.click(screen.getByTestId('modal-btn'));
 
+    fireEvent.change(screen.getByTestId('input__address'), { target: { value: mockedAddress } });
     expect(screen.getByTestId('form')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId('submit-btn'));
   });
 });

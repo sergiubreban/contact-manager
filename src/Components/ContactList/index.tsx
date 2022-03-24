@@ -3,12 +3,12 @@ import { Accordion, Center, Container, Flex, Heading, Skeleton, Stack, Text } fr
 import { DocumentData } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useTranslation } from 'react-i18next';
-import { useContactRef, useMetamask } from '../../Hooks';
+import { useNewContactRef, useMetamask } from '../../Hooks';
 import ContactListItem from '../ContactListItem';
 import CreateContactModal from '../CreateContactModal';
 
 const ContactList = () => {
-  const contactModelRef = useContactRef();
+  const contactModelRef = useNewContactRef();
   const [value, loading, error] = useCollection(contactModelRef);
   const { account } = useMetamask();
   const { t } = useTranslation();

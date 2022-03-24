@@ -26,10 +26,16 @@ const useFirebaseApp = () => app;
 // firebase db instance
 const useFirestore = () => getFirestore(app);
 
-// firebase contact collection
-const useContactRef = () => {
+// firebase new contact collection reference
+const useNewContactRef = () => {
   const firestore = useFirestore();
   return collection(firestore, 'Contact');
+};
+
+// firebase contact collection reference
+const useContactDocRef = (docId: string) => {
+  const firestore = useFirestore();
+  return doc(firestore, 'Contact', docId);
 };
 
 // firebase auth update document helper
@@ -53,4 +59,13 @@ const useAppToast = () => {
 
 const useMetamask = () => useContext(AccountContext);
 
-export { useFirebaseApp, useFirestore, useStorage, useAppToast, useContactRef, useMetamask, useUpdateDoc };
+export {
+  useFirebaseApp,
+  useFirestore,
+  useStorage,
+  useAppToast,
+  useNewContactRef,
+  useMetamask,
+  useUpdateDoc,
+  useContactDocRef,
+};
