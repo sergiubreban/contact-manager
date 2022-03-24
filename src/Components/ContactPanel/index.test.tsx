@@ -42,7 +42,7 @@ describe('DisplayContactPanel component', () => {
     render(<DisplayContactPanel contact={{}} />);
 
     screen.getAllByTestId('contact-data').forEach((element) => {
-      expect(element.textContent).toBe('N/A');
+      expect(element.textContent).toBe('n/a');
     });
   });
 });

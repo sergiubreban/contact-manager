@@ -43,35 +43,35 @@ const DisplayContactPanel = ({ contact }: ContactPanelProps) => {
       <Stack py="2" flex="1" minW="200px" fontSize="18px">
         <Flex gap="2">
           <Text>{t('Wallet')}:</Text>
-          <Text data-testid="contact-data">{(publicAddress && shortenAddress(publicAddress)) || t('N/A')}</Text>
+          <Text data-testid="contact-data">{(publicAddress && shortenAddress(publicAddress)) || t('n/a')}</Text>
         </Flex>
         <Flex gap="2">
           <Text>{t('Name')}:</Text>
-          <Text data-testid="contact-data">{name || t('N/A')}</Text>
+          <Text data-testid="contact-data">{name || t('n/a')}</Text>
         </Flex>
         <Flex gap="2">
           <Text>{t('LastName')}:</Text>
-          <Text data-testid="contact-data">{lastName || t('N/A')}</Text>
+          <Text data-testid="contact-data">{lastName || t('n/a')}</Text>
         </Flex>
         <Flex gap="2">
           <Text>{t('Email')}:</Text>
-          <Text data-testid="contact-data">{email || t('N/A')}</Text>
+          <Text data-testid="contact-data">{email || t('n/a')}</Text>
         </Flex>
         <Flex gap="2">
           <Text>{t('Phone')}:</Text>
-          <Text data-testid="contact-data">{phone || t('N/A')}</Text>
+          <Text data-testid="contact-data">{phone || t('n/a')}</Text>
         </Flex>
         <Flex gap="2">
           <Text>{t('Age')}:</Text>
-          <Text data-testid="contact-data">{contact.age || t('N/A')}</Text>
+          <Text data-testid="contact-data">{contact.age || t('n/a')}</Text>
         </Flex>
         <Flex gap="2">
           <Text>{t('Website')}:</Text>
-          <Text data-testid="contact-data">{contact.website || t('N/A')}</Text>
+          <Text data-testid="contact-data">{contact.website || t('n/a')}</Text>
         </Flex>
         <Flex gap="2" alignItems="center">
           <Text>{t('Tags')}:</Text>
-          <Text data-testid="contact-data">{tagsToDisplay ?? t('N/A')}</Text>
+          <Text data-testid="contact-data">{tagsToDisplay ?? t('n/a')}</Text>
         </Flex>
       </Stack>
       <Center w="300px">

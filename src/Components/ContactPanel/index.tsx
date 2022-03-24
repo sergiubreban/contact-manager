@@ -12,7 +12,7 @@ const DisplayPanel = (props: ContactPanelProps) => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const { account } = useMetamask();
 
-  const isUserContact = !!account && contact?.publicAddress === account.toString();
+  const isUserContact = !!account && contact?.publicAddress?.toLowerCase() === account.toString();
   const areActionsAvailable = !contact.verified || isUserContact;
 
   return (

@@ -35,10 +35,10 @@ const ContactListItem = ({ contact }: ContactListItemProps) => {
   const { name, lastName, publicAddress, phone, email, verified } = contact;
 
   return (
-    <AccordionItem border={'1px solid gray'} m="2">
+    <AccordionItem border={'1px solid gray'} m="2" borderRadius="10px">
       <AccordionButton>
         <Flex justify="space-between" w="100%">
-          <Flex alignItems="center" gap="2">
+          <Flex alignItems="center" gap="2" flexWrap={'wrap'}>
             {verified ? <VerifiedIcon /> : <UnverifiedIcon />}
             <Text data-testid="contact-heading__name">{name}</Text>
             <Text data-testid="contact-heading__last-name">{lastName}</Text>

@@ -39,7 +39,7 @@ const ContactList = () => {
     for (let i = 0; i < value.docs.length; i++) {
       const doc = value.docs[i];
       const data = doc.data();
-      const isUserContact = !!account && data?.publicAddress === account.toString();
+      const isUserContact = !!account && data?.publicAddress?.toLowerCase() === account.toString();
       const parsedDocument = { ...data, id: doc.id };
 
       if (isUserContact) {
@@ -66,7 +66,7 @@ const ContactList = () => {
     <Container>
       <Center p="3rem">
         <Flex alignItems="center" gap="4">
-          <Heading>{t('Contacts')}</Heading>
+          <Heading>{t('Public Contacts')}</Heading>
           <CreateContactModal showUseWalletSwitch={!hasAccountVerified} />
         </Flex>
       </Center>

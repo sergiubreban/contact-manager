@@ -68,10 +68,11 @@ const CreateContactModal = ({ showUseWalletSwitch }: CreateContactModalProps) =>
     <>
       <IconButton
         size="sm"
+        mt="2"
         onClick={onOpen}
         data-testid="modal-btn"
         aria-label="add contact"
-        icon={<IoIosAddCircle />}
+        icon={<IoIosAddCircle size="1.2rem" />}
       />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
