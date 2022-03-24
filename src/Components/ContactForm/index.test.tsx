@@ -122,7 +122,6 @@ describe('ContactForm component', () => {
     expect(submitedData?.age).toEqual(1);
     expect(submitedData?.website).toEqual('input__website');
     expect(submitedData?.email).toEqual('input__email');
-    expect(submitedData?.verified).toEqual(false);
   });
 
   test('Should paste address from clipboard', async () => {
