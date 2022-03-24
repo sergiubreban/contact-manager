@@ -1,10 +1,10 @@
 import { IconButtonProps } from '@chakra-ui/react';
-import { ethers, Wallet } from 'ethers';
+import { ethers } from 'ethers';
 
 export type Contact = {
   id?: string;
   name?: string;
-  publicAddress?: Wallet | string | null;
+  publicAddress?: string;
   lastName?: string;
   phone?: string;
   age?: number;

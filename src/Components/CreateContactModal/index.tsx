@@ -41,9 +41,10 @@ const CreateContactModal = ({ showUseWalletSwitch }: CreateContactModalProps) =>
         storagePath = storageResponse.metadata.fullPath;
       }
 
+      const isOwnerOfContact = account?.toString() === fields.publicAddress?.toLowerCase();
       addDoc(contactModelRef, {
         ...fields,
-        ...(account?.toString() === fields.publicAddress?.toString()?.toLowerCase() && { verified: true }),
+        ...(isOwnerOfContact && { verified: true }),
         profilePic: storagePath,
       });
 

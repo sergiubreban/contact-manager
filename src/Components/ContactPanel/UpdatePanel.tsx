@@ -28,9 +28,10 @@ const UpdateContactPanel = ({ contact, onClose }: UpdateContactPanelProps) => {
         storagePath = storageResponse.metadata.fullPath;
       }
 
+      const isOwnerOfContact = account?.toString() === fields.publicAddress?.toLowerCase();
       updateContactDoc(contact.id!, {
         ...fields,
-        ...(account?.toString() === fields.publicAddress?.toString()?.toLowerCase() && { verified: true }),
+        ...(isOwnerOfContact && { verified: true }),
         ...(storagePath && { profilePic: storagePath }),
       });
 

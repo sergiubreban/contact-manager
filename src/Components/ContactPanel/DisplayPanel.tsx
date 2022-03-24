@@ -43,9 +43,7 @@ const DisplayContactPanel = ({ contact }: ContactPanelProps) => {
       <Stack py="2" flex="1" minW="200px" fontSize="18px">
         <Flex gap="2">
           <Text>{t('Wallet')}:</Text>
-          <Text data-testid="contact-data">
-            {(publicAddress && shortenAddress(publicAddress.toString())) || t('N/A')}
-          </Text>
+          <Text data-testid="contact-data">{(publicAddress && shortenAddress(publicAddress)) || t('N/A')}</Text>
         </Flex>
         <Flex gap="2">
           <Text>{t('Name')}:</Text>

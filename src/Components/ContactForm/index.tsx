@@ -34,7 +34,7 @@ const ContactForm = (props: ContactFormProps) => {
   const [email, setEmail] = useState(props.email ?? '');
   const [tags, setTags] = useState(props.tags ?? []);
   const [profilePicFile, setProfilePicFile] = useState<File | null>(null);
-  const [publicAddress, setPublicAddress] = useState<string>(props.publicAddress?.toString() ?? '');
+  const [publicAddress, setPublicAddress] = useState<string>(props.publicAddress ?? '');
   const [isContactOwner, setIsContactOwner] = useState(false);
   const { account } = useMetamask();
   const inputRef = useRef<HTMLInputElement | null>(null);

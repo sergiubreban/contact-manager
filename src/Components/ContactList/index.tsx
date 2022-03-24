@@ -58,7 +58,7 @@ const ContactList = () => {
 
   useEffect(() => setDistinctTags(distinctTags), [distinctTags, setDistinctTags]);
   useEffect(
-    () => setRegisteredAccounts(documents.map((doc) => doc.publicAddress?.toString().toLowerCase())),
+    () => setRegisteredAccounts(documents.map((doc) => doc.publicAddress?.toLowerCase())),
     [documents, setRegisteredAccounts]
   );
 
