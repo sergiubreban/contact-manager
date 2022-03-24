@@ -2,6 +2,7 @@ import {
   Button,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   IconButton,
   Input,
@@ -22,7 +23,6 @@ import { useTranslation } from 'react-i18next';
 import { useMetamask } from '../../Hooks';
 import { ContactFormProps } from '../../Types';
 import { HiClipboardCopy } from 'react-icons/hi';
-import { Wallet } from 'ethers';
 
 const ContactForm = (props: ContactFormProps) => {
   const { t } = useTranslation();
@@ -35,30 +35,32 @@ const ContactForm = (props: ContactFormProps) => {
   const [email, setEmail] = useState(props.email ?? '');
   const [tags, setTags] = useState(props.tags ?? []);
   const [profilePicFile, setProfilePicFile] = useState<File | null>(null);
-  const [publicAddress, setPublicAddress] = useState<Wallet | string | null>(props.publicAddress ?? null);
+  const [publicAddress, setPublicAddress] = useState<string | null>(props.publicAddress?.toString() ?? null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const [isContactOwner, setIsContactOwner] = useState(false);
+  const isWalletAddressWalidated = !!(publicAddress ?? '').match(/^0x[a-fA-F0-9]{40}$/);
 
   useEffect(() => {
-    isContactOwner && setPublicAddress(account);
+    isContactOwner && setPublicAddress(account?.toString()!);
   }, [isContactOwner, account]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    props.onSubmit({
-      publicAddress,
-      verified: isContactOwner,
-      name,
-      lastName,
-      phone,
-      age,
-      website,
-      email,
-      tags,
-      profilePicFile,
-    });
+    if (isWalletAddressWalidated) {
+      props.onSubmit({
+        publicAddress,
+        verified: isContactOwner,
+        name,
+        lastName,
+        phone,
+        age,
+        website,
+        email,
+        tags,
+        profilePicFile,
+      });
+    }
   };
 
   const pasteClipboardAddress = async () => {
@@ -72,7 +74,7 @@ const ContactForm = (props: ContactFormProps) => {
         <FormControl>
           <Flex justify="space-between">
             <FormLabel htmlFor="wallet_address">{'Wallet Address'}</FormLabel>
-            {props.verifyWallet && account && (
+            {props.showUseWalletSwitch && account && (
               <Flex>
                 <FormLabel htmlFor="my-wallet" mb="0">
                   {t('Use my wallet')}
@@ -87,16 +89,28 @@ const ContactForm = (props: ContactFormProps) => {
               name="wallet_address"
               data-testid="input__address"
               type="text"
-              disabled={isContactOwner}
-              value={publicAddress?.toString()}
+              disabled={isContactOwner || !props.askAddress}
+              value={publicAddress ?? ''}
               onChange={(e) => setPublicAddress(e.target.value)}
             />
             <InputRightElement width="4.5rem" pr="5px" justifyContent="flex-end">
-              <IconButton aria-label="paste-address" h="1.75rem" size="sm" onClick={pasteClipboardAddress}>
+              <IconButton
+                disabled={isContactOwner || !props.askAddress}
+                aria-label="paste-address"
+                h="1.75rem"
+                size="sm"
+                onClick={pasteClipboardAddress}
+              >
                 <HiClipboardCopy />
               </IconButton>
             </InputRightElement>
           </InputGroup>
+          <Flex justify="space-between" alignItems="center">
+            <FormHelperText>{t('Copy/Paste metamask address')}</FormHelperText>
+            {publicAddress && !isWalletAddressWalidated && (
+              <FormHelperText color="red">{t('Invalid address')}</FormHelperText>
+            )}
+          </Flex>
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="name">{'Name'}</FormLabel>

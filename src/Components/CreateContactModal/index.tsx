@@ -17,7 +17,7 @@ import { IoIosAddCircle } from 'react-icons/io';
 import ContactForm from '../ContactForm';
 import { useState } from 'react';
 
-const CreateContactModal = ({ distinctTags, verifyWallet }: CreateContactModalProps) => {
+const CreateContactModal = ({ distinctTags, showUseWalletSwitch }: CreateContactModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
@@ -77,10 +77,11 @@ const CreateContactModal = ({ distinctTags, verifyWallet }: CreateContactModalPr
           <ModalCloseButton />
           <ModalBody>
             <ContactForm
+              askAddress={true}
               actionText={t('Add')}
               onSubmit={submitNewContact}
               distinctTags={distinctTags}
-              verifyWallet={verifyWallet}
+              showUseWalletSwitch={showUseWalletSwitch}
               isLoading={isLoading}
             />
           </ModalBody>

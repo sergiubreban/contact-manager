@@ -28,14 +28,21 @@ const ContactList = () => {
       return [];
     }
 
-    return value.docs.map(
-      (doc) =>
-        ({
-          ...doc.data(),
-          id: doc.id,
-        } as DocumentData)
-    );
-  }, [value]);
+    const documents: DocumentData[] = [];
+
+    // map and sort data in one loop
+    for (let i = 0; i < value.docs.length; i++) {
+      const doc = value.docs[i];
+      const data = doc.data();
+      const isUserContact = !!account && data?.publicAddress === account.toString();
+      const indexToInsert = isUserContact ? 0 : documents.length;
+      const parsedDocument = { ...data, id: doc.id };
+
+      documents.splice(indexToInsert, 0, parsedDocument);
+    }
+
+    return documents;
+  }, [value, account]);
 
   const hasAccountVerified = !!account && documents.find((doc) => doc?.publicAddress === account.toString())?.verified;
 
@@ -44,7 +51,7 @@ const ContactList = () => {
       <Center p="3rem">
         <Flex alignItems="center" gap="4">
           <Heading>{t('Contacts')}</Heading>
-          <CreateContactModal distinctTags={distinctTags} verifyWallet={!hasAccountVerified} />
+          <CreateContactModal distinctTags={distinctTags} showUseWalletSwitch={!hasAccountVerified} />
         </Flex>
       </Center>
       {error && (

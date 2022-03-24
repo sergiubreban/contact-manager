@@ -10,7 +10,7 @@ describe('CreateContactModal component', () => {
   test('Should be defined', async () => {
     const component = render(
       <ThemeWrapper>
-        <CreateContactModal distinctTags={[]} verifyWallet={true} />
+        <CreateContactModal distinctTags={[]} showUseWalletSwitch={true} />
       </ThemeWrapper>
     );
 
@@ -20,7 +20,7 @@ describe('CreateContactModal component', () => {
   test('Should open and show form', async () => {
     render(
       <ThemeWrapper>
-        <CreateContactModal distinctTags={[]} verifyWallet={true} />
+        <CreateContactModal distinctTags={[]} showUseWalletSwitch={true} />
       </ThemeWrapper>
     );
 

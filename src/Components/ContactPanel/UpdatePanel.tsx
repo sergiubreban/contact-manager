@@ -67,6 +67,7 @@ const UpdateContactPanel = ({ contact, onClose }: UpdateContactPanelProps) => {
       onSubmit={handleContacUpdate}
       isLoading={isLoading}
       actionText={t('Update')}
+      askAddress={false}
     />
   );
 };

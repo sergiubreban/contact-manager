@@ -1,18 +1,44 @@
-import { AccordionButton, AccordionItem, AccordionPanel, Flex, Text } from '@chakra-ui/react';
+import { AccordionButton, AccordionItem, AccordionPanel, Flex, Text, Tooltip } from '@chakra-ui/react';
 import { ContactListItemProps } from '../../Types';
 import { MdEmail, MdSmartphone } from 'react-icons/md';
 import { BsFillWalletFill } from 'react-icons/bs';
 import ClipboardButton from '../ClipboardButton';
 import ContactPanel from '../ContactPanel';
+import { MdVerifiedUser } from 'react-icons/md';
+import { GoUnverified } from 'react-icons/go';
+import { useTranslation } from 'react-i18next';
+
+const VerifiedIcon = () => {
+  const { t } = useTranslation();
+  return (
+    <Tooltip label={t('This contact is verified. Only he can update his profile!')}>
+      <span>
+        <MdVerifiedUser color="green" />
+      </span>
+    </Tooltip>
+  );
+};
+
+const UnverifiedIcon = () => {
+  const { t } = useTranslation();
+  return (
+    <Tooltip label={t('The community added this contact. You can update the information if you think it is outdated!')}>
+      <span>
+        <GoUnverified />
+      </span>
+    </Tooltip>
+  );
+};
 
 const ContactListItem = ({ contact }: ContactListItemProps) => {
-  const { name, lastName, publicAddress, phone, email } = contact;
+  const { name, lastName, publicAddress, phone, email, verified } = contact;
 
   return (
     <AccordionItem border={'1px solid gray'} m="2">
       <AccordionButton>
         <Flex justify="space-between" w="100%">
-          <Flex>
+          <Flex alignItems="center" gap="2">
+            {verified ? <VerifiedIcon /> : <UnverifiedIcon />}
             <Text data-testid="contact-heading__name">{name}</Text>
             <Text data-testid="contact-heading__last-name">{lastName}</Text>
           </Flex>
