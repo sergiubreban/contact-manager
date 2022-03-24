@@ -12,6 +12,7 @@ export type Contact = {
   tags?: string[];
   email?: string;
   profilePic?: string;
+  verified?: boolean;
 };
 
 export interface ContactFromData extends Omit<Contact, 'profilePic'> {
@@ -19,7 +20,9 @@ export interface ContactFromData extends Omit<Contact, 'profilePic'> {
 }
 
 export interface ContactFormProps extends Contact {
+  isLoading?: boolean;
   distinctTags?: string[];
+  verifyWallet?: boolean;
   onSubmit: (values: ContactFromData) => void;
 }
 
@@ -28,6 +31,7 @@ export interface ContactPanelProps {
 }
 
 export interface CreateContactModalProps {
+  verifyWallet?: boolean;
   distinctTags?: string[];
 }
 

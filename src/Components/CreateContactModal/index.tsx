@@ -11,33 +11,54 @@ import {
 import { addDoc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useTranslation } from 'react-i18next';
-import { useContactRef, useStorage } from '../../Hooks';
+import { useAppToast, useContactRef, useStorage } from '../../Hooks';
 import { ContactFromData, CreateContactModalProps } from '../../Types';
 import { IoIosAddCircle } from 'react-icons/io';
 import ContactForm from '../ContactForm';
+import { useState } from 'react';
 
-const CreateContactModal = ({ distinctTags }: CreateContactModalProps) => {
+const CreateContactModal = ({ distinctTags, verifyWallet }: CreateContactModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const contactModelRef = useContactRef();
   const storage = useStorage();
+  const toast = useAppToast();
 
   const submitNewContact = async (form: ContactFromData) => {
+    setIsLoading(true);
     const { profilePicFile, ...fields } = form;
 
-    let storagePath = '';
-    if (profilePicFile) {
-      const profilePicRef = ref(storage, profilePicFile.name);
+    try {
+      let storagePath = '';
 
-      const storageResponse = await uploadBytes(profilePicRef, profilePicFile);
+      if (profilePicFile) {
+        const profilePicRef = ref(storage, profilePicFile.name);
 
-      storagePath = storageResponse.metadata.fullPath;
+        const storageResponse = await uploadBytes(profilePicRef, profilePicFile);
+
+        storagePath = storageResponse.metadata.fullPath;
+      }
+
+      addDoc(contactModelRef, {
+        ...fields,
+        profilePic: storagePath,
+      });
+
+      toast({
+        title: t('Contact saved!'),
+        status: 'success',
+      });
+
+      onClose();
+    } catch (error) {
+      toast({
+        title: t('There was an unexpected error. Please try again.'),
+        status: 'error',
+      });
+    } finally {
+      setIsLoading(false);
     }
-
-    addDoc(contactModelRef, {
-      ...fields,
-      profilePic: storagePath,
-    });
   };
 
   return (
@@ -52,10 +73,15 @@ const CreateContactModal = ({ distinctTags }: CreateContactModalProps) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{t('Modal Title')}</ModalHeader>
+          <ModalHeader>{t('New Contact')}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <ContactForm onSubmit={submitNewContact} distinctTags={distinctTags} />
+            <ContactForm
+              onSubmit={submitNewContact}
+              distinctTags={distinctTags}
+              verifyWallet={verifyWallet}
+              isLoading={isLoading}
+            />
           </ModalBody>
         </ModalContent>
       </Modal>

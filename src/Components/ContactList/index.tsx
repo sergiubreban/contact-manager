@@ -1,14 +1,16 @@
 import { Accordion, Center, Container, Flex, Heading, Skeleton, Stack, Text } from '@chakra-ui/react';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useMemo } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useTranslation } from 'react-i18next';
-import { useContactRef } from '../../Hooks';
+import { useContactRef, useMetamask } from '../../Hooks';
 import ContactListItem from '../ContactListItem';
 import CreateContactModal from '../CreateContactModal';
 
 const ContactList = () => {
   const contactModelRef = useContactRef();
   const [value, loading, error] = useCollection(contactModelRef);
+  const { account } = useMetamask();
   const { t } = useTranslation();
 
   const distinctTags = useMemo(
@@ -21,12 +23,28 @@ const ContactList = () => {
     [value]
   );
 
+  const documents = useMemo(() => {
+    if (!value) {
+      return [];
+    }
+
+    return value.docs.map(
+      (doc) =>
+        ({
+          ...doc.data(),
+          id: doc.id,
+        } as DocumentData)
+    );
+  }, [value]);
+
+  const hasAccountVerified = !!account && documents.find((doc) => doc?.publicAddress === account.toString())?.verified;
+
   return (
     <Container>
       <Center p="3rem">
         <Flex alignItems="center" gap="4">
           <Heading>{t('Contacts')}</Heading>
-          <CreateContactModal distinctTags={distinctTags} />
+          <CreateContactModal distinctTags={distinctTags} verifyWallet={!hasAccountVerified} />
         </Flex>
       </Center>
       {error && (
@@ -45,8 +63,8 @@ const ContactList = () => {
       )}
       {value && (
         <Accordion allowMultiple data-testid="contacts--fetched">
-          {value.docs.map((doc) => (
-            <ContactListItem key={doc.id} contact={doc.data()} />
+          {documents.map((doc) => (
+            <ContactListItem key={doc.id} contact={doc} />
           ))}
         </Accordion>
       )}

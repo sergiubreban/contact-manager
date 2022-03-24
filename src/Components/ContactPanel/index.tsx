@@ -31,7 +31,7 @@ const ContactPanel = ({ contact }: ContactPanelProps) => {
     }
 
     return (
-      <Flex alignItems="center" gap="1">
+      <Flex alignItems="center" gap="1" as="span">
         {tags?.map?.((tag) => (
           <Tag key={tag}>{tag}</Tag>
         ))}
@@ -43,7 +43,7 @@ const ContactPanel = ({ contact }: ContactPanelProps) => {
     <Flex flexWrap="wrap">
       <Stack p="5" flex="1" minW="200px">
         <Flex gap="2">
-          <Text>{t('Wallet Address')}:</Text>
+          <Text>{t('Wallet')}:</Text>
           <Text data-testid="contact-data">{(publicAddress && shortenAddress(publicAddress)) || t('N/A')}</Text>
         </Flex>
         <Flex gap="2">

@@ -1,4 +1,15 @@
-import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Stack,
+  Switch,
+} from '@chakra-ui/react';
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -6,12 +17,15 @@ import {
   AutoCompleteList,
   AutoCompleteTag,
 } from '@choc-ui/chakra-autocomplete';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useMetamask } from '../../Hooks';
 import { ContactFormProps } from '../../Types';
+import { HiClipboardCopy } from 'react-icons/hi';
 
 const ContactForm = (props: ContactFormProps) => {
   const { t } = useTranslation();
+  const { account } = useMetamask();
   const [name, setName] = useState(props.name ?? '');
   const [lastName, setLastName] = useState(props.lastName ?? '');
   const [phone, setPhone] = useState(props.phone ?? '');
@@ -20,13 +34,21 @@ const ContactForm = (props: ContactFormProps) => {
   const [email, setEmail] = useState(props.email ?? '');
   const [tags, setTags] = useState(props.tags ?? []);
   const [profilePicFile, setProfilePicFile] = useState<any>(props.profilePic ?? '');
+  const [publicAddress, setPublicAddress] = useState<any>(props.publicAddress ?? '');
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
+  const [isContactOwner, setIsContactOwner] = useState(false);
+
+  useEffect(() => {
+    isContactOwner && setPublicAddress(account);
+  }, [isContactOwner]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     props.onSubmit({
+      publicAddress,
+      verified: isContactOwner,
       name,
       lastName,
       phone,
@@ -38,9 +60,43 @@ const ContactForm = (props: ContactFormProps) => {
     });
   };
 
+  const pasteClipboardAddress = async () => {
+    const clipboardValue = await navigator.clipboard.readText();
+    clipboardValue && setPublicAddress(clipboardValue);
+  };
+
   return (
     <form ref={formRef} onSubmit={handleSubmit} data-testid="form">
       <Stack gap="2">
+        <FormControl>
+          <Flex justify="space-between">
+            <FormLabel htmlFor="wallet_address">{'Wallet Address'}</FormLabel>
+            {props.verifyWallet && account && (
+              <Flex>
+                <FormLabel htmlFor="my-wallet" mb="0">
+                  {t('Use my wallet')}
+                </FormLabel>
+                <Switch id="my-wallet" checked={isContactOwner} onChange={(e) => setIsContactOwner(e.target.checked)} />
+              </Flex>
+            )}
+          </Flex>
+          <InputGroup size="md">
+            <Input
+              id="wallet_address"
+              name="wallet_address"
+              data-testid="input__address"
+              type="text"
+              disabled={isContactOwner}
+              value={publicAddress}
+              onChange={(e) => setPublicAddress(e.target.value)}
+            />
+            <InputRightElement width="4.5rem" pr="5px" justifyContent="flex-end">
+              <IconButton aria-label="paste-address" h="1.75rem" size="sm" onClick={pasteClipboardAddress}>
+                <HiClipboardCopy />
+              </IconButton>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
         <FormControl>
           <FormLabel htmlFor="name">{'Name'}</FormLabel>
           <Input
@@ -134,14 +190,6 @@ const ContactForm = (props: ContactFormProps) => {
               ))}
             </AutoCompleteList>
           </AutoComplete>
-          {/* <Input
-            id="tags"
-            name="tags"
-            data-testid="input__tags"
-            type="text"
-            value={tags}
-            onChange={(e) => setTags([e.target.value])}
-          /> */}
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="image">{'Profile Image'}</FormLabel>
@@ -161,7 +209,7 @@ const ContactForm = (props: ContactFormProps) => {
             }: any) => validity.valid && setProfilePicFile(file)}
           />
         </FormControl>
-        <Button type="submit" variant="ghost" alignSelf="flex-end" data-testid="submit-btn">
+        <Button isLoading={props.isLoading} type="submit" variant="ghost" alignSelf="flex-end" data-testid="submit-btn">
           {'Add'}
         </Button>
       </Stack>

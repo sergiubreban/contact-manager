@@ -36,6 +36,9 @@ const AccountProvider: FC = (props) => {
   };
 
   useEffect(() => {
+    if (!ethereum) {
+      return;
+    }
     const checkIfWalletIsConnected = async () => {
       try {
         if (!ethereum) {
