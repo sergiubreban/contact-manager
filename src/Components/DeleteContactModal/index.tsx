@@ -15,10 +15,8 @@ import { useTranslation } from 'react-i18next';
 import { useAppToast, useContactDocRef } from '../../Hooks';
 import { MdDelete } from 'react-icons/md';
 import { deleteDoc } from 'firebase/firestore';
+import { DeleteContactModalProps } from '../../Types';
 
-interface DeleteContactModalProps {
-  docId: string;
-}
 const DeleteContactModal = ({ docId }: DeleteContactModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const contactModelRef = useContactDocRef(docId);

@@ -49,3 +49,11 @@ export interface AccountContextProps {
   isLoading: boolean;
   connectWallet: () => void;
 }
+
+export interface DeleteContactModalProps {
+  docId: string;
+}
+
+export interface UpdateContactPanelProps extends ContactPanelProps {
+  onClose: () => void;
+}

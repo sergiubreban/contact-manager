@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { ref, uploadBytes } from 'firebase/storage';
-import { ContactFormData, ContactPanelProps } from '../../Types';
+import { ContactFormData, UpdateContactPanelProps } from '../../Types';
 import ContactForm from '../ContactForm';
 import { useAppToast, useMetamask, useStorage, useUpdateDoc } from '../../Hooks';
 import { useTranslation } from 'react-i18next';
 
-interface UpdateContactPanelProps extends ContactPanelProps {
-  onClose: () => void;
-}
 const UpdateContactPanel = ({ contact, onClose }: UpdateContactPanelProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const updateContactDoc = useUpdateDoc('Contact');
