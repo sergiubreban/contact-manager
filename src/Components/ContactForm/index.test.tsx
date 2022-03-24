@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import ContactForm from '.';
 import { Contact } from '../../Types';
 import { ThemeWrapper } from '../../Utils';
@@ -7,6 +8,14 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 const mockedAddress = '0x0000000000000000000000000000000000000000';
+
+const mockedClipboardText = '0x0000000000000000000000000000000000000001';
+Object.assign(navigator, {
+  clipboard: {
+    readText: async () => mockedClipboardText,
+  },
+});
+
 describe('ContactForm component', () => {
   test('Should be defined', async () => {
     let submitedData = null;
@@ -115,5 +124,27 @@ describe('ContactForm component', () => {
     expect(submitedData?.website).toEqual('input__website');
     expect(submitedData?.email).toEqual('input__email');
     expect(submitedData?.verified).toEqual(false);
+  });
+
+  test('Should paste address from clipboard', async () => {
+    let submitedData: Contact = {};
+    jest.spyOn(navigator.clipboard, 'readText');
+
+    render(
+      <ThemeWrapper>
+        <ContactForm
+          actionText="Add"
+          distinctTags={['test']}
+          onSubmit={(data) => (submitedData = data)}
+          askAddress={true}
+        />
+      </ThemeWrapper>
+    );
+
+    await act(async () => {
+      await fireEvent.click(screen.getByTestId('button__paste-address'));
+    });
+
+    expect(navigator.clipboard.readText).toHaveBeenCalled();
   });
 });

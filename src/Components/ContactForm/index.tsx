@@ -97,6 +97,7 @@ const ContactForm = (props: ContactFormProps) => {
               <IconButton
                 disabled={isContactOwner || !props.askAddress}
                 aria-label="paste-address"
+                data-testid="button__paste-address"
                 h="1.75rem"
                 size="sm"
                 onClick={pasteClipboardAddress}
