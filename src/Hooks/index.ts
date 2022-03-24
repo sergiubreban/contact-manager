@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { initializeApp } from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import { collection, getFirestore } from 'firebase/firestore';
+import { collection, doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { useToast, UseToastOptions } from '@chakra-ui/react';
 import { AccountContext } from '../Context';
@@ -32,6 +32,12 @@ const useContactRef = () => {
   return collection(firestore, 'Contact');
 };
 
+// firebase auth update document helper
+const useUpdateDoc = (model: string) => {
+  const firestore = useFirestore();
+  return (docId: string, data: Partial<unknown>) => updateDoc(doc(firestore, model, docId), data);
+};
+
 // firebase storage instance
 const useStorage = () => getStorage(app);
 
@@ -47,4 +53,4 @@ const useAppToast = () => {
 
 const useMetamask = () => useContext(AccountContext);
 
-export { useFirebaseApp, useFirestore, useStorage, useAppToast, useContactRef, useMetamask };
+export { useFirebaseApp, useFirestore, useStorage, useAppToast, useContactRef, useMetamask, useUpdateDoc };
