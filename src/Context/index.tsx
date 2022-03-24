@@ -7,12 +7,13 @@ interface AccountContextProps {
   isLoading: boolean;
   connectWallet: () => void;
 }
-export const AccountContext = createContext({
+const defaultContextValue: AccountContextProps = {
   account: null,
   connectWallet: () => {},
   isLoading: true,
   provider: null,
-} as AccountContextProps);
+};
+export const AccountContext = createContext(defaultContextValue);
 
 const AccountProvider: FC = (props) => {
   const [currentAccount, setCurrentAccount] = useState<Wallet | null>(null);
