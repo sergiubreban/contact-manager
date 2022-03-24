@@ -1,11 +1,8 @@
-import { IconButton, IconButtonProps, Text, Tooltip } from '@chakra-ui/react';
+import { IconButton, Text, Tooltip } from '@chakra-ui/react';
 import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppToast } from '../../Hooks';
-
-interface ClipboardButtonProps extends IconButtonProps {
-  text: string;
-}
+import { ClipboardButtonProps } from '../../Types';
 
 const ClipboardButton = ({ text, ...buttonProps }: ClipboardButtonProps) => {
   const [copied, setCopied] = useState(false);

@@ -1,12 +1,7 @@
 import { ethers, Wallet } from 'ethers';
 import { createContext, FC, useEffect, useState } from 'react';
+import { AccountContextProps } from '../Types';
 
-interface AccountContextProps {
-  account: ethers.Wallet | null;
-  provider: ethers.providers.Web3Provider | null;
-  isLoading: boolean;
-  connectWallet: () => void;
-}
 const defaultContextValue: AccountContextProps = {
   account: null,
   connectWallet: () => {},

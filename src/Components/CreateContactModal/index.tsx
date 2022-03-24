@@ -12,12 +12,9 @@ import { addDoc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useTranslation } from 'react-i18next';
 import { useContactRef, useStorage } from '../../Hooks';
-import { ContactFromData } from '../../types';
+import { ContactFromData, CreateContactModalProps } from '../../Types';
 import { IoIosAddCircle } from 'react-icons/io';
 import ContactForm from '../ContactForm';
-interface CreateContactModalProps {
-  distinctTags?: string[];
-}
 
 const CreateContactModal = ({ distinctTags }: CreateContactModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

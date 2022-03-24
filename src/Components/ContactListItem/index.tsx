@@ -1,13 +1,10 @@
 import { AccordionButton, AccordionItem, AccordionPanel, Flex, Text } from '@chakra-ui/react';
-import { Contact } from '../../types';
+import { ContactListItemProps } from '../../Types';
 import { MdEmail, MdSmartphone } from 'react-icons/md';
 import { BsFillWalletFill } from 'react-icons/bs';
 import ClipboardButton from '../ClipboardButton';
 import ContactPanel from '../ContactPanel';
 
-interface ContactListItemProps {
-  contact: Contact;
-}
 const ContactListItem = ({ contact }: ContactListItemProps) => {
   const { name, lastName, publicAddress, phone, email } = contact;
 

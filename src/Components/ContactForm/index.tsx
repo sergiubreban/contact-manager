@@ -8,7 +8,7 @@ import {
 } from '@choc-ui/chakra-autocomplete';
 import { FormEvent, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ContactFormProps } from '../../types';
+import { ContactFormProps } from '../../Types';
 
 const ContactForm = (props: ContactFormProps) => {
   const { t } = useTranslation();
