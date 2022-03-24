@@ -7,7 +7,7 @@ import { ContactPanelProps } from '../../Types';
 import { shortenAddress } from '../../Utils';
 
 const DisplayContactPanel = ({ contact }: ContactPanelProps) => {
-  const { name, lastName, publicAddress, phone, email, profilePic } = contact;
+  const { name, lastName, publicAddress, phone, email, tags, profilePic } = contact;
   const [avatarLink, setAvatarLink] = useState('');
   const storage = useStorage();
   const { t } = useTranslation();
@@ -23,7 +23,6 @@ const DisplayContactPanel = ({ contact }: ContactPanelProps) => {
       getAvatar();
     }
   }, [profilePic, storage]);
-  const { tags } = contact;
 
   const tagsToDisplay = useMemo(() => {
     if (!tags?.length) {
@@ -32,7 +31,7 @@ const DisplayContactPanel = ({ contact }: ContactPanelProps) => {
 
     return (
       <Flex alignItems="center" gap="1" as="span">
-        {tags?.map?.((tag) => (
+        {tags.map((tag) => (
           <Tag key={tag}>{tag}</Tag>
         ))}
       </Flex>

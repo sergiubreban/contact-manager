@@ -24,7 +24,7 @@ export interface ContactFormProps extends Contact {
   isLoading?: boolean;
   distinctTags?: string[];
   showUseWalletSwitch?: boolean;
-  askAddress?: boolean;
+  askAddress: boolean;
   onSubmit: (values: ContactFormData) => void;
 }
 
@@ -33,7 +33,7 @@ export interface ContactPanelProps {
 }
 
 export interface CreateContactModalProps {
-  showUseWalletSwitch?: boolean;
+  showUseWalletSwitch: boolean;
   distinctTags?: string[];
 }
 

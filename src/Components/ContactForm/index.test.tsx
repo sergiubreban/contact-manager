@@ -22,7 +22,7 @@ describe('ContactForm component', () => {
 
     const component = render(
       <ThemeWrapper>
-        <ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} />
+        <ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} askAddress={false} />
       </ThemeWrapper>
     );
 
