@@ -6,7 +6,7 @@ import { useStorage } from '../../Hooks';
 import { ContactPanelProps } from '../../Types';
 import { shortenAddress } from '../../Utils';
 
-const DsiplayContactPanel = ({ contact }: ContactPanelProps) => {
+const DisplayContactPanel = ({ contact }: ContactPanelProps) => {
   const { name, lastName, publicAddress, phone, email, profilePic } = contact;
   const [avatarLink, setAvatarLink] = useState('');
   const storage = useStorage();
@@ -84,4 +84,4 @@ const DsiplayContactPanel = ({ contact }: ContactPanelProps) => {
   );
 };
 
-export default DsiplayContactPanel;
+export default DisplayContactPanel;

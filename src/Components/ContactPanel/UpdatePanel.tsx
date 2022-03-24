@@ -1,4 +1,4 @@
-import { ContactFromData, ContactPanelProps } from '../../Types';
+import { ContactFormData, ContactPanelProps } from '../../Types';
 import { useState } from 'react';
 import ContactForm from '../ContactForm';
 import { ref, uploadBytes } from 'firebase/storage';
@@ -16,7 +16,7 @@ const UpdateContactPanel = ({ contact, onClose }: UpdateContactPanelProps) => {
   const { t } = useTranslation();
 
   const storage = useStorage();
-  const handleContacUpdate = async (form: ContactFromData) => {
+  const handleContacUpdate = async (form: ContactFormData) => {
     setIsLoading(true);
     const { profilePicFile, ...fields } = form;
 

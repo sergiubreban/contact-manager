@@ -10,7 +10,7 @@ const defaultContextValue: AccountContextProps = {
 };
 export const AccountContext = createContext(defaultContextValue);
 
-const AccountProvider: FC = (props) => {
+const AccountProvider: FC = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState<Wallet | string | null>(null);
   const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,7 +89,7 @@ const AccountProvider: FC = (props) => {
         provider,
       }}
     >
-      {props.children}
+      {children}
     </AccountContext.Provider>
   );
 };

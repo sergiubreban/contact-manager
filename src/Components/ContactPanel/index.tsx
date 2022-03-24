@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMetamask } from '../../Hooks';
 import { ContactPanelProps } from '../../Types';
-import DsiplayContactPanel from './DisplayPanel';
+import DisplayContactPanel from './DisplayPanel';
 import UpdateContactPanel from './UpdatePanel';
 
 const DisplayPanel = (props: ContactPanelProps) => {
@@ -19,7 +19,7 @@ const DisplayPanel = (props: ContactPanelProps) => {
         <UpdateContactPanel contact={contact} onClose={() => setShowUpdateForm(false)} />
       ) : (
         <>
-          <DsiplayContactPanel contact={contact} />
+          <DisplayContactPanel contact={contact} />
           {(!contact.verified || isUserContact) && (
             <Button size="sm" onClick={() => setShowUpdateForm(true)} colorScheme="blue" alignSelf="flex-end">
               {t('Update')}

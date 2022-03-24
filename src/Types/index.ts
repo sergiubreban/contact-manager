@@ -15,7 +15,7 @@ export type Contact = {
   verified?: boolean;
 };
 
-export interface ContactFromData extends Omit<Contact, 'profilePic'> {
+export interface ContactFormData extends Omit<Contact, 'profilePic'> {
   profilePicFile?: File | null;
 }
 
@@ -25,7 +25,7 @@ export interface ContactFormProps extends Contact {
   distinctTags?: string[];
   showUseWalletSwitch?: boolean;
   askAddress?: boolean;
-  onSubmit: (values: ContactFromData) => void;
+  onSubmit: (values: ContactFormData) => void;
 }
 
 export interface ContactPanelProps {
