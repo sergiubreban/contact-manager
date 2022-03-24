@@ -61,7 +61,7 @@ const AccountProvider: FC = ({ children }) => {
       });
 
       // detect Network account change
-      ethereum.on('networkChanged', function () {
+      ethereum.on('chainChanged', function () {
         window.location.reload();
       });
 
