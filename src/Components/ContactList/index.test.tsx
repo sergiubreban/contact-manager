@@ -20,6 +20,7 @@ jest.mock('../../Hooks', () => {
     useStorage: jest.fn(),
     useContactRef: jest.fn(),
     useAppToast: () => ({}),
+    useMetamask: () => 'fake address',
   };
 });
 
