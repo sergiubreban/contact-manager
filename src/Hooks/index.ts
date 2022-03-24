@@ -1,9 +1,11 @@
+import { useContext } from 'react';
 import { initializeApp } from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import { collection, getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { useToast, UseToastOptions } from '@chakra-ui/react';
+import { AccountContext } from '../Context';
 
 // firebase configuration
 const firebaseConfig = {
@@ -43,4 +45,6 @@ const useAppToast = () => {
   return (options?: UseToastOptions | undefined) => toast({ ...options, isClosable: options?.isClosable ?? true });
 };
 
-export { useFirebaseApp, useFirestore, useStorage, useAppToast, useContactRef };
+const useMetamask = () => useContext(AccountContext);
+
+export { useFirebaseApp, useFirestore, useStorage, useAppToast, useContactRef, useMetamask };
