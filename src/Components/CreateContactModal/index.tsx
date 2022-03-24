@@ -12,7 +12,7 @@ import {
 import { addDoc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useTranslation } from 'react-i18next';
-import { useAppToast, useNewContactRef, useStorage } from '../../Hooks';
+import { useAppToast, useMetamask, useNewContactRef, useStorage } from '../../Hooks';
 import { ContactFormData, CreateContactModalProps } from '../../Types';
 import { IoIosAddCircle } from 'react-icons/io';
 import ContactForm from '../ContactForm';
@@ -23,6 +23,7 @@ const CreateContactModal = ({ showUseWalletSwitch }: CreateContactModalProps) =>
   const contactModelRef = useNewContactRef();
   const storage = useStorage();
   const toast = useAppToast();
+  const { account } = useMetamask();
   const { t } = useTranslation();
 
   const submitNewContact = async (form: ContactFormData) => {
@@ -42,6 +43,7 @@ const CreateContactModal = ({ showUseWalletSwitch }: CreateContactModalProps) =>
 
       addDoc(contactModelRef, {
         ...fields,
+        ...(account?.toString() === fields.publicAddress?.toString()?.toLowerCase() && { verified: true }),
         profilePic: storagePath,
       });
 

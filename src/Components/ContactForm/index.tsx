@@ -55,7 +55,6 @@ const ContactForm = (props: ContactFormProps) => {
     if (isWalletAddressWalidated && (!props.askAddress || !addressAlreadyUsed)) {
       props.onSubmit({
         publicAddress,
-        verified: isContactOwner,
         name,
         lastName,
         phone,
@@ -99,13 +98,13 @@ const ContactForm = (props: ContactFormProps) => {
               name="wallet_address"
               data-testid="input__address"
               type="text"
-              disabled={isContactOwner || !props.askAddress}
+              disabled={!props.askAddress}
               value={publicAddress ?? ''}
               onChange={(e) => setPublicAddress(e.target.value)}
             />
             <InputRightElement width="4.5rem" pr="5px" justifyContent="flex-end">
               <IconButton
-                disabled={isContactOwner || !props.askAddress}
+                disabled={!props.askAddress}
                 aria-label="paste-address"
                 data-testid="button__paste-address"
                 h="1.75rem"

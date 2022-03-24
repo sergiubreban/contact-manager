@@ -12,7 +12,7 @@ import { shortenAddress } from '../../Utils';
 const VerifiedIcon = () => {
   const { t } = useTranslation();
   return (
-    <Tooltip label={t('This contact is verified. Only he can update his profile!')}>
+    <Tooltip label={t('This contact is verified. The address owner did update the information!')}>
       <span>
         <MdVerifiedUser color="green" />
       </span>

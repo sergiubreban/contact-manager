@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ref, uploadBytes } from 'firebase/storage';
 import { ContactFormData, ContactPanelProps } from '../../Types';
 import ContactForm from '../ContactForm';
-import { useAppToast, useStorage, useUpdateDoc } from '../../Hooks';
+import { useAppToast, useMetamask, useStorage, useUpdateDoc } from '../../Hooks';
 import { useTranslation } from 'react-i18next';
 
 interface UpdateContactPanelProps extends ContactPanelProps {
@@ -12,6 +12,7 @@ const UpdateContactPanel = ({ contact, onClose }: UpdateContactPanelProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const updateContactDoc = useUpdateDoc('Contact');
   const storage = useStorage();
+  const { account } = useMetamask();
   const toast = useAppToast();
   const { t } = useTranslation();
 
@@ -32,6 +33,7 @@ const UpdateContactPanel = ({ contact, onClose }: UpdateContactPanelProps) => {
 
       updateContactDoc(contact.id!, {
         ...fields,
+        ...(account?.toString() === fields.publicAddress?.toString()?.toLowerCase() && { verified: true }),
         ...(storagePath && { profilePic: storagePath }),
       });
 
