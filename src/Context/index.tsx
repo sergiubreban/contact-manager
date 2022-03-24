@@ -20,21 +20,6 @@ const AccountProvider: FC = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const ethereum = window.ethereum;
 
-  const checkIfWalletIsConnected = async () => {
-    try {
-      if (!ethereum) {
-        return;
-      } else {
-        const accounts = await ethereum.request({ method: 'eth_accounts' });
-        if (accounts.length !== 0) {
-          const account = accounts[0];
-          setCurrentAccount(account);
-          setProvider(new ethers.providers.Web3Provider(ethereum));
-        }
-      }
-    } catch (error) {}
-  };
-
   const connectWalletAction = async () => {
     setIsLoading(true);
     try {
@@ -54,28 +39,44 @@ const AccountProvider: FC = (props) => {
     setIsLoading(false);
   };
 
-  const AccountChangeHandler = () => {
-    // detect account address change
-    ethereum.on('accountsChanged', function (accounts: Wallet[]) {
-      setCurrentAccount(accounts[0]);
-    });
-
-    // detect Network account change
-    ethereum.on('networkChanged', function () {
-      window.location.reload();
-    });
-
-    return () => {
-      ethereum.removeAllListeners();
-    };
-  };
-
   useEffect(() => {
-    setIsLoading(true);
-    checkIfWalletIsConnected();
-    setIsLoading(false);
+    const checkIfWalletIsConnected = async () => {
+      try {
+        if (!ethereum) {
+          return;
+        } else {
+          const accounts = await ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length !== 0) {
+            const account = accounts[0];
+            setCurrentAccount(account);
+            setProvider(new ethers.providers.Web3Provider(ethereum));
+          }
+        }
+      } catch (error) {}
+    };
 
-    const cleanup = AccountChangeHandler();
+    const accountChangeHandler = () => {
+      // detect account address change
+      ethereum.on('accountsChanged', function (accounts: Wallet[]) {
+        setCurrentAccount(accounts[0]);
+      });
+
+      // detect Network account change
+      ethereum.on('networkChanged', function () {
+        window.location.reload();
+      });
+
+      return () => {
+        ethereum.removeAllListeners();
+      };
+    };
+
+    setIsLoading(true);
+
+    checkIfWalletIsConnected();
+    const cleanup = accountChangeHandler();
+
+    setIsLoading(false);
 
     return cleanup;
   }, [ethereum]);

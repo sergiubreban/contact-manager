@@ -1,5 +1,5 @@
 import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
-import { FC, FormEvent, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ContactFormProps } from '../../types';
 
