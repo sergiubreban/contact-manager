@@ -1,10 +1,10 @@
 import { IconButtonProps } from '@chakra-ui/react';
-import { ethers } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 
 export type Contact = {
   id?: string;
   name?: string;
-  publicAddress?: string;
+  publicAddress?: Wallet | string | null;
   lastName?: string;
   phone?: string;
   age?: number;
@@ -16,10 +16,11 @@ export type Contact = {
 };
 
 export interface ContactFromData extends Omit<Contact, 'profilePic'> {
-  profilePicFile?: File;
+  profilePicFile?: File | null;
 }
 
 export interface ContactFormProps extends Contact {
+  actionText: string;
   isLoading?: boolean;
   distinctTags?: string[];
   verifyWallet?: boolean;
@@ -44,7 +45,7 @@ export interface ClipboardButtonProps extends IconButtonProps {
 }
 
 export interface AccountContextProps {
-  account: ethers.Wallet | null;
+  account: ethers.Wallet | string | null;
   provider: ethers.providers.Web3Provider | null;
   isLoading: boolean;
   connectWallet: () => void;

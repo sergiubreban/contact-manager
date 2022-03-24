@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import ContactPanel from '.';
+import DisplayContactPanel from './DisplayPanel';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -14,25 +14,20 @@ const mockedContact = {
   age: 1,
   website: 'website.test',
   email: 'test@email.com',
-}
+};
 const mockedShortenAddress = (str: string) => {
   return str.substring(0, 6) + '...' + str.substring(str.length - 6);
 };
 
-describe('ContactPanel component', () => {
+describe('DisplayContactPanel component', () => {
   test('Should be defined', async () => {
-    const component = render(
-      <ContactPanel contact={mockedContact} />
-    );
+    const component = render(<DisplayContactPanel contact={mockedContact} />);
 
     expect(component).toBeDefined();
   });
 
-
   test('Should render contact information', async () => {
-    render(
-      <ContactPanel contact={mockedContact} />
-    );
+    render(<DisplayContactPanel contact={mockedContact} />);
 
     expect(screen.getByText(mockedContact.name)).toBeInTheDocument();
     expect(screen.getByText(mockedShortenAddress(mockedContact.publicAddress))).toBeInTheDocument();
@@ -42,13 +37,11 @@ describe('ContactPanel component', () => {
     expect(screen.getByText(mockedContact.website)).toBeInTheDocument();
     expect(screen.getByText(mockedContact.email)).toBeInTheDocument();
   });
-  
+
   test('Should render N/A when contact information is missing', async () => {
-    render(
-      <ContactPanel contact={{}} />
-    );
-    
-    screen.getAllByTestId('contact-data').forEach((element) => { 
+    render(<DisplayContactPanel contact={{}} />);
+
+    screen.getAllByTestId('contact-data').forEach((element) => {
       expect(element.textContent).toBe('N/A');
     });
   });

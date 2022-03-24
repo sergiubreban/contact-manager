@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useMetamask } from '../../Hooks';
 import { ContactFormProps } from '../../Types';
 import { HiClipboardCopy } from 'react-icons/hi';
+import { Wallet } from 'ethers';
 
 const ContactForm = (props: ContactFormProps) => {
   const { t } = useTranslation();
@@ -33,15 +34,15 @@ const ContactForm = (props: ContactFormProps) => {
   const [website, setWebsite] = useState(props.website ?? '');
   const [email, setEmail] = useState(props.email ?? '');
   const [tags, setTags] = useState(props.tags ?? []);
-  const [profilePicFile, setProfilePicFile] = useState<any>(props.profilePic ?? '');
-  const [publicAddress, setPublicAddress] = useState<any>(props.publicAddress ?? '');
+  const [profilePicFile, setProfilePicFile] = useState<File | null>(null);
+  const [publicAddress, setPublicAddress] = useState<Wallet | string | null>(props.publicAddress ?? null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const [isContactOwner, setIsContactOwner] = useState(false);
 
   useEffect(() => {
     isContactOwner && setPublicAddress(account);
-  }, [isContactOwner]);
+  }, [isContactOwner, account]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -87,7 +88,7 @@ const ContactForm = (props: ContactFormProps) => {
               data-testid="input__address"
               type="text"
               disabled={isContactOwner}
-              value={publicAddress}
+              value={publicAddress?.toString()}
               onChange={(e) => setPublicAddress(e.target.value)}
             />
             <InputRightElement width="4.5rem" pr="5px" justifyContent="flex-end">
@@ -210,7 +211,7 @@ const ContactForm = (props: ContactFormProps) => {
           />
         </FormControl>
         <Button isLoading={props.isLoading} type="submit" variant="ghost" alignSelf="flex-end" data-testid="submit-btn">
-          {'Add'}
+          {props.actionText}
         </Button>
       </Stack>
     </form>

@@ -31,7 +31,7 @@ const ContactListItem = ({ contact }: ContactListItemProps) => {
             />
             <ClipboardButton
               data-testid="action-button__wallet-address"
-              text={publicAddress ?? ''}
+              text={publicAddress?.toString() ?? ''}
               aria-label="Copy wallet address"
               icon={<BsFillWalletFill />}
             />

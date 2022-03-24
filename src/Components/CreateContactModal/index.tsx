@@ -77,6 +77,7 @@ const CreateContactModal = ({ distinctTags, verifyWallet }: CreateContactModalPr
           <ModalCloseButton />
           <ModalBody>
             <ContactForm
+              actionText={t('Add')}
               onSubmit={submitNewContact}
               distinctTags={distinctTags}
               verifyWallet={verifyWallet}

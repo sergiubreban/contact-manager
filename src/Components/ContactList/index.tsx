@@ -1,5 +1,5 @@
 import { Accordion, Center, Container, Flex, Heading, Skeleton, Stack, Text } from '@chakra-ui/react';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { DocumentData } from 'firebase/firestore';
 import { useMemo } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ const ContactList = () => {
       value.docs
         .map((doc) => doc.data()?.tags ?? [])
         .flat()
-        .filter((tag, index, self) => self.indexOf(tag) === index),
+        .filter((tag, index, self) => self?.indexOf(tag) === index),
     [value]
   );
 

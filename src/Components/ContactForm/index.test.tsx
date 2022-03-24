@@ -10,7 +10,7 @@ describe('ContactForm component', () => {
   test('Should be defined', async () => {
     let submitedData = null;
 
-    const component = render(<ContactForm onSubmit={(data) => (submitedData = data)} />);
+    const component = render(<ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} />);
 
     expect(component).toBeDefined();
     expect(screen.getByTestId('input__name')).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe('ContactForm component', () => {
   test('Should submit form on submit event', async () => {
     let submitedData: Contact = {};
 
-    render(<ContactForm onSubmit={(data) => (submitedData = data)} />);
+    render(<ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} />);
 
     fireEvent.change(screen.getByTestId('input__name'), { target: { value: 'input__name' } });
     fireEvent.change(screen.getByTestId('input__lastName'), { target: { value: 'input__lastName' } });
@@ -50,7 +50,7 @@ describe('ContactForm component', () => {
   test('Should submit form on submit button clicked', async () => {
     let submitedData: Contact = {};
 
-    render(<ContactForm onSubmit={(data) => (submitedData = data)} />);
+    render(<ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} />);
 
     fireEvent.change(screen.getByTestId('input__name'), { target: { value: 'input__name' } });
     fireEvent.change(screen.getByTestId('input__lastName'), { target: { value: 'input__lastName' } });

@@ -11,7 +11,7 @@ const defaultContextValue: AccountContextProps = {
 export const AccountContext = createContext(defaultContextValue);
 
 const AccountProvider: FC = (props) => {
-  const [currentAccount, setCurrentAccount] = useState<Wallet | null>(null);
+  const [currentAccount, setCurrentAccount] = useState<Wallet | string | null>(null);
   const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const ethereum = window.ethereum;
