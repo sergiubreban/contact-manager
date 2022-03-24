@@ -1,4 +1,3 @@
-import { extendTheme, ThemeProvider } from '@chakra-ui/react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import ContactForm from '.';
 import { Contact } from '../../Types';
@@ -7,7 +6,7 @@ import { ThemeWrapper } from '../../Utils';
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
-
+const mockedAddress = '0x0000000000000000000000000000000000000000';
 describe('ContactForm component', () => {
   test('Should be defined', async () => {
     let submitedData = null;
@@ -33,10 +32,11 @@ describe('ContactForm component', () => {
 
     render(
       <ThemeWrapper>
-        <ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} />
+        <ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} askAddress={true} />
       </ThemeWrapper>
     );
 
+    fireEvent.change(screen.getByTestId('input__address'), { target: { value: mockedAddress } });
     fireEvent.change(screen.getByTestId('input__name'), { target: { value: 'input__name' } });
     fireEvent.change(screen.getByTestId('input__lastName'), { target: { value: 'input__lastName' } });
     fireEvent.change(screen.getByTestId('input__phone'), { target: { value: 'input__phone' } });
@@ -46,6 +46,7 @@ describe('ContactForm component', () => {
 
     fireEvent.submit(screen.getByTestId('form'));
 
+    expect(submitedData?.publicAddress).toEqual(mockedAddress);
     expect(submitedData?.name).toEqual('input__name');
     expect(submitedData?.lastName).toEqual('input__lastName');
     expect(submitedData?.phone).toEqual('input__phone');
@@ -59,10 +60,11 @@ describe('ContactForm component', () => {
 
     render(
       <ThemeWrapper>
-        <ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} />
+        <ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} askAddress={true} />
       </ThemeWrapper>
     );
 
+    fireEvent.change(screen.getByTestId('input__address'), { target: { value: mockedAddress } });
     fireEvent.change(screen.getByTestId('input__name'), { target: { value: 'input__name' } });
     fireEvent.change(screen.getByTestId('input__lastName'), { target: { value: 'input__lastName' } });
     fireEvent.change(screen.getByTestId('input__phone'), { target: { value: 'input__phone' } });
@@ -72,11 +74,46 @@ describe('ContactForm component', () => {
 
     fireEvent.click(screen.getByTestId('submit-btn'));
 
+    expect(submitedData?.publicAddress).toEqual(mockedAddress);
     expect(submitedData?.name).toEqual('input__name');
     expect(submitedData?.lastName).toEqual('input__lastName');
     expect(submitedData?.phone).toEqual('input__phone');
     expect(submitedData?.age).toEqual(0);
     expect(submitedData?.website).toEqual('input__website');
     expect(submitedData?.email).toEqual('input__email');
+  });
+
+  test('Should submit form on submit with askAddress false', async () => {
+    let submitedData: Contact = {};
+
+    render(
+      <ThemeWrapper>
+        <ContactForm
+          actionText="Add"
+          distinctTags={['test']}
+          publicAddress={mockedAddress}
+          onSubmit={(data) => (submitedData = data)}
+          askAddress={false}
+        />
+      </ThemeWrapper>
+    );
+
+    fireEvent.change(screen.getByTestId('input__name'), { target: { value: 'input__name' } });
+    fireEvent.change(screen.getByTestId('input__lastName'), { target: { value: 'input__lastName' } });
+    fireEvent.change(screen.getByTestId('input__phone'), { target: { value: 'input__phone' } });
+    fireEvent.change(screen.getByTestId('input__age'), { target: { value: '1' } });
+    fireEvent.change(screen.getByTestId('input__website'), { target: { value: 'input__website' } });
+    fireEvent.change(screen.getByTestId('input__email'), { target: { value: 'input__email' } });
+
+    fireEvent.click(screen.getByTestId('submit-btn'));
+
+    expect(submitedData?.publicAddress).toEqual(mockedAddress);
+    expect(submitedData?.name).toEqual('input__name');
+    expect(submitedData?.lastName).toEqual('input__lastName');
+    expect(submitedData?.phone).toEqual('input__phone');
+    expect(submitedData?.age).toEqual(1);
+    expect(submitedData?.website).toEqual('input__website');
+    expect(submitedData?.email).toEqual('input__email');
+    expect(submitedData?.verified).toEqual(false);
   });
 });
