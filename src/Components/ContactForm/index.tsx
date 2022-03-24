@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import {
   Button,
   Flex,
@@ -20,9 +20,10 @@ import {
   AutoCompleteTag,
 } from '@choc-ui/chakra-autocomplete';
 import { useTranslation } from 'react-i18next';
-import { useMetamask } from '../../Hooks';
+import { useAppToast, useMetamask } from '../../Hooks';
 import { ContactFormProps } from '../../Types';
 import { HiClipboardCopy } from 'react-icons/hi';
+import { ContactContext } from '../../Context/Contacts';
 
 const ContactForm = (props: ContactFormProps) => {
   const [name, setName] = useState(props.name ?? '');
@@ -33,13 +34,17 @@ const ContactForm = (props: ContactFormProps) => {
   const [email, setEmail] = useState(props.email ?? '');
   const [tags, setTags] = useState(props.tags ?? []);
   const [profilePicFile, setProfilePicFile] = useState<File | null>(null);
-  const [publicAddress, setPublicAddress] = useState<string | null>(props.publicAddress?.toString() ?? null);
+  const [publicAddress, setPublicAddress] = useState<string>(props.publicAddress?.toString() ?? '');
   const [isContactOwner, setIsContactOwner] = useState(false);
   const { account } = useMetamask();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
+  const { distinctTags, registeredAccounts } = useContext(ContactContext);
+  const toast = useAppToast();
   const { t } = useTranslation();
+
   const isWalletAddressWalidated = !!(publicAddress ?? '').match(/^0x[a-fA-F0-9]{40}$/);
+  const addressAlreadyUsed = registeredAccounts.includes(publicAddress);
 
   useEffect(() => {
     isContactOwner && setPublicAddress(account?.toString()!);
@@ -47,7 +52,7 @@ const ContactForm = (props: ContactFormProps) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isWalletAddressWalidated) {
+    if (isWalletAddressWalidated && (!props.askAddress || !addressAlreadyUsed)) {
       props.onSubmit({
         publicAddress,
         verified: isContactOwner,
@@ -59,6 +64,11 @@ const ContactForm = (props: ContactFormProps) => {
         email,
         tags,
         profilePicFile,
+      });
+    } else {
+      toast({
+        title: t('Please provide a valid wallet address'),
+        status: 'error',
       });
     }
   };
@@ -108,8 +118,11 @@ const ContactForm = (props: ContactFormProps) => {
           </InputGroup>
           <Flex justify="space-between" alignItems="center">
             <FormHelperText>{t('Copy/Paste metamask address')}</FormHelperText>
-            {publicAddress && !isWalletAddressWalidated && (
+            {publicAddress && !isWalletAddressWalidated ? (
               <FormHelperText color="red">{t('Invalid address')}</FormHelperText>
+            ) : (
+              props.askAddress &&
+              addressAlreadyUsed && <FormHelperText color="red">{t('Address Already Exists')}</FormHelperText>
             )}
           </Flex>
         </FormControl>
@@ -193,7 +206,7 @@ const ContactForm = (props: ContactFormProps) => {
               }
             </AutoCompleteInput>
             <AutoCompleteList>
-              {(props.distinctTags ?? []).map((tag, cid) => (
+              {distinctTags.map((tag, cid) => (
                 <AutoCompleteItem
                   key={`option-${cid}`}
                   value={tag}

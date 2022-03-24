@@ -17,7 +17,7 @@ import { ContactFormData, CreateContactModalProps } from '../../Types';
 import { IoIosAddCircle } from 'react-icons/io';
 import ContactForm from '../ContactForm';
 
-const CreateContactModal = ({ distinctTags, showUseWalletSwitch }: CreateContactModalProps) => {
+const CreateContactModal = ({ showUseWalletSwitch }: CreateContactModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const contactModelRef = useNewContactRef();
@@ -80,7 +80,6 @@ const CreateContactModal = ({ distinctTags, showUseWalletSwitch }: CreateContact
               askAddress={true}
               actionText={t('Add')}
               onSubmit={submitNewContact}
-              distinctTags={distinctTags}
               showUseWalletSwitch={showUseWalletSwitch}
               isLoading={isLoading}
             />

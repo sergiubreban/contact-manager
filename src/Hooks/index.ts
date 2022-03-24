@@ -5,7 +5,7 @@ import 'firebase/auth';
 import { collection, doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { useToast, UseToastOptions } from '@chakra-ui/react';
-import { AccountContext } from '../Context';
+import { AccountContext } from '../Context/WalletAccount';
 
 // firebase configuration
 const firebaseConfig = {

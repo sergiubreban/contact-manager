@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Accordion, Center, Container, Flex, Heading, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { DocumentData } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
@@ -6,22 +6,27 @@ import { useTranslation } from 'react-i18next';
 import { useNewContactRef, useMetamask } from '../../Hooks';
 import ContactListItem from '../ContactListItem';
 import CreateContactModal from '../CreateContactModal';
+import { ContactContext } from '../../Context/Contacts';
 
 const ContactList = () => {
   const contactModelRef = useNewContactRef();
   const [value, loading, error] = useCollection(contactModelRef);
   const { account } = useMetamask();
   const { t } = useTranslation();
+  const { setDistinctTags, setRegisteredAccounts } = useContext(ContactContext);
 
-  const distinctTags = useMemo(
-    () =>
-      value &&
-      value.docs
+  const distinctTags = useMemo(() => {
+    let tags: string[] = [];
+
+    if (value) {
+      tags = value.docs
         .map((doc) => doc.data()?.tags ?? [])
         .flat()
-        .filter((tag, index, self) => self?.indexOf(tag) === index),
-    [value]
-  );
+        .filter((tag, index, self) => self?.indexOf(tag) === index);
+    }
+
+    return tags;
+  }, [value]);
 
   const [documents, hasAccountVerified] = useMemo(() => {
     if (!value) {
@@ -51,12 +56,15 @@ const ContactList = () => {
     return [documents, !!account && userDocument?.verified];
   }, [value, account]);
 
+  useEffect(() => setDistinctTags(distinctTags), [distinctTags, setDistinctTags]);
+  useEffect(() => setRegisteredAccounts(documents.map((doc) => doc.publicAddress)), [documents, setRegisteredAccounts]);
+
   return (
     <Container>
       <Center p="3rem">
         <Flex alignItems="center" gap="4">
           <Heading>{t('Contacts')}</Heading>
-          <CreateContactModal distinctTags={distinctTags} showUseWalletSwitch={!hasAccountVerified} />
+          <CreateContactModal showUseWalletSwitch={!hasAccountVerified} />
         </Flex>
       </Center>
       {error && (

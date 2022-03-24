@@ -7,6 +7,7 @@ import ContactPanel from '../ContactPanel';
 import { MdVerifiedUser } from 'react-icons/md';
 import { GoUnverified } from 'react-icons/go';
 import { useTranslation } from 'react-i18next';
+import { shortenAddress } from '../../Utils';
 
 const VerifiedIcon = () => {
   const { t } = useTranslation();
@@ -41,6 +42,9 @@ const ContactListItem = ({ contact }: ContactListItemProps) => {
             {verified ? <VerifiedIcon /> : <UnverifiedIcon />}
             <Text data-testid="contact-heading__name">{name}</Text>
             <Text data-testid="contact-heading__last-name">{lastName}</Text>
+            <Text data-testid="contact-heading__public-address">
+              {publicAddress && shortenAddress(publicAddress.toString())}
+            </Text>
           </Flex>
           <Flex gap="2">
             <ClipboardButton

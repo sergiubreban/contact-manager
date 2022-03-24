@@ -22,7 +22,6 @@ export interface ContactFormData extends Omit<Contact, 'profilePic'> {
 export interface ContactFormProps extends Contact {
   actionText: string;
   isLoading?: boolean;
-  distinctTags?: string[];
   showUseWalletSwitch?: boolean;
   askAddress: boolean;
   onSubmit: (values: ContactFormData) => void;
@@ -34,7 +33,6 @@ export interface ContactPanelProps {
 
 export interface CreateContactModalProps {
   showUseWalletSwitch: boolean;
-  distinctTags?: string[];
 }
 
 export interface ContactListItemProps {

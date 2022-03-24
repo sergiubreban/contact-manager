@@ -99,7 +99,6 @@ describe('ContactForm component', () => {
       <ThemeWrapper>
         <ContactForm
           actionText="Add"
-          distinctTags={['test']}
           publicAddress={mockedAddress}
           onSubmit={(data) => (submitedData = data)}
           askAddress={false}
@@ -132,12 +131,7 @@ describe('ContactForm component', () => {
 
     render(
       <ThemeWrapper>
-        <ContactForm
-          actionText="Add"
-          distinctTags={['test']}
-          onSubmit={(data) => (submitedData = data)}
-          askAddress={true}
-        />
+        <ContactForm actionText="Add" onSubmit={(data) => (submitedData = data)} askAddress={true} />
       </ThemeWrapper>
     );
 
