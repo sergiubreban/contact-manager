@@ -1,4 +1,4 @@
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import ContactList from './Components/ContactList';
 import Layout from './Components/Layout';
 import AccountProvider from './Context';
