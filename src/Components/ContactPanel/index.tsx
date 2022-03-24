@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Center, Flex, Image, Stack, Tag, Text } from '@chakra-ui/react';
+import { Avatar, Center, Flex, Stack, Tag, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useStorage } from '../../Hooks';
@@ -41,7 +41,7 @@ const ContactPanel = ({ contact }: ContactPanelProps) => {
 
   return (
     <Flex flexWrap="wrap">
-      <Stack p="5" flex="1" minW="200px">
+      <Stack py="2" flex="1" minW="200px" fontSize="18px">
         <Flex gap="2">
           <Text>{t('Wallet')}:</Text>
           <Text data-testid="contact-data">{(publicAddress && shortenAddress(publicAddress)) || t('N/A')}</Text>
@@ -76,7 +76,7 @@ const ContactPanel = ({ contact }: ContactPanelProps) => {
         </Flex>
       </Stack>
       <Center w="300px">
-        <Image src={avatarLink} w="100%" h="auto" />
+        <Avatar size="2xl" name={name} src={avatarLink} />{' '}
       </Center>
     </Flex>
   );
