@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Center, Flex, Image, Stack, Text } from '@chakra-ui/react';
+import { useEffect, useMemo, useState } from 'react';
+import { Center, Flex, Image, Stack, Tag, Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useStorage } from '../../Hooks';
@@ -26,6 +26,21 @@ const ContactPanel = ({ contact }: ContactPanelProps) => {
       getAvatar();
     }
   }, [profilePic, storage]);
+  const { tags } = contact;
+
+  const tagsToDisplay = useMemo(() => {
+    if (!tags?.length) {
+      return null;
+    }
+
+    return (
+      <Flex alignItems="center" gap="1">
+        {tags?.map?.((tag) => (
+          <Tag key={tag}>{tag}</Tag>
+        ))}
+      </Flex>
+    );
+  }, [tags]);
 
   return (
     <Flex flexWrap="wrap">
@@ -58,9 +73,9 @@ const ContactPanel = ({ contact }: ContactPanelProps) => {
           <Text>{t('Website')}:</Text>
           <Text data-testid="contact-data">{contact.website || t('N/A')}</Text>
         </Flex>
-        <Flex gap="2">
+        <Flex gap="2" alignItems="center">
           <Text>{t('Tags')}:</Text>
-          <Text data-testid="contact-data">{contact.tags || t('N/A')}</Text>
+          <Text data-testid="contact-data">{tagsToDisplay ?? t('N/A')}</Text>
         </Flex>
       </Stack>
       <Center w="300px">

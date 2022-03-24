@@ -1,5 +1,3 @@
-
-
 export type Contact = {
   id?: string;
   name?: string;
@@ -11,10 +9,11 @@ export type Contact = {
   tags?: string[];
   email?: string;
   profilePic?: string;
-}
+};
 export interface ContactFromData extends Omit<Contact, 'profilePic'> {
   profilePicFile?: File;
 }
 export interface ContactFormProps extends Contact {
+  distinctTags?: string[];
   onSubmit: (values: ContactFromData) => void;
 }

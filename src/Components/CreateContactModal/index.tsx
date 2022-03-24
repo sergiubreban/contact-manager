@@ -15,8 +15,11 @@ import { useContactRef, useStorage } from '../../Hooks';
 import { ContactFromData } from '../../types';
 import { IoIosAddCircle } from 'react-icons/io';
 import ContactForm from '../ContactForm';
+interface CreateContactModalProps {
+  distinctTags?: string[];
+}
 
-const CreateContactModal = () => {
+const CreateContactModal = ({ distinctTags }: CreateContactModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { t } = useTranslation();
   const contactModelRef = useContactRef();
@@ -55,7 +58,7 @@ const CreateContactModal = () => {
           <ModalHeader>{t('Modal Title')}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <ContactForm onSubmit={submitNewContact} />
+            <ContactForm onSubmit={submitNewContact} distinctTags={distinctTags} />
           </ModalBody>
         </ModalContent>
       </Modal>

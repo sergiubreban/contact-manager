@@ -1,4 +1,11 @@
 import { Button, FormControl, FormLabel, Input, Stack } from '@chakra-ui/react';
+import {
+  AutoComplete,
+  AutoCompleteInput,
+  AutoCompleteItem,
+  AutoCompleteList,
+  AutoCompleteTag,
+} from '@choc-ui/chakra-autocomplete';
 import { FormEvent, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ContactFormProps } from '../../types';
@@ -95,17 +102,6 @@ const ContactForm = (props: ContactFormProps) => {
           />
         </FormControl>
         <FormControl>
-          <FormLabel htmlFor="tags">{'tags'}</FormLabel>
-          <Input
-            id="tags"
-            name="tags"
-            data-testid="input__tags"
-            type="text"
-            value={tags}
-            onChange={(e) => setTags([e.target.value])}
-          />
-        </FormControl>
-        <FormControl>
           <FormLabel htmlFor="email">{t('Email address')}</FormLabel>
           <Input
             id="email"
@@ -115,6 +111,37 @@ const ContactForm = (props: ContactFormProps) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="tags">{'tags'}</FormLabel>
+          <AutoComplete value={tags} onChange={(vals) => setTags(vals)} openOnFocus multiple creatable>
+            <AutoCompleteInput variant="filled" id="tags" name="tags" data-testid="input__tags">
+              {({ tags }) =>
+                tags.map((tag, tid) => <AutoCompleteTag key={tid} label={tag.label} onRemove={tag.onRemove} />)
+              }
+            </AutoCompleteInput>
+            <AutoCompleteList>
+              {(props.distinctTags ?? []).map((tag, cid) => (
+                <AutoCompleteItem
+                  key={`option-${cid}`}
+                  value={tag}
+                  textTransform="capitalize"
+                  _selected={{ bg: 'whiteAlpha.50' }}
+                  _focus={{ bg: 'whiteAlpha.100' }}
+                >
+                  {tag}
+                </AutoCompleteItem>
+              ))}
+            </AutoCompleteList>
+          </AutoComplete>
+          {/* <Input
+            id="tags"
+            name="tags"
+            data-testid="input__tags"
+            type="text"
+            value={tags}
+            onChange={(e) => setTags([e.target.value])}
+          /> */}
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="image">{'Profile Image'}</FormLabel>
