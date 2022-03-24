@@ -1,17 +1,17 @@
+import { FC, MouseEvent, useEffect, useState } from 'react';
+import { ethers } from 'ethers';
 import { Box, Button, Flex, SkeletonCircle, Text } from '@chakra-ui/react';
 import { Web3Provider } from '@ethersproject/providers';
-import { ethers } from 'ethers';
-import { FC, MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import { useAppToast, useMetamask } from '../../Hooks';
 import { shortenAddress } from '../../Utils';
 
 const Layout: FC = (props) => {
-  const { connectWallet, account, isLoading, provider } = useMetamask();
   const [balance, setBalance] = useState<string>('');
-  const { t } = useTranslation();
+  const { connectWallet, account, isLoading, provider } = useMetamask();
   const toast = useAppToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getBalance = async (provider: Web3Provider, account: string) => {

@@ -1,3 +1,4 @@
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import {
   Button,
   Flex,
@@ -18,15 +19,12 @@ import {
   AutoCompleteList,
   AutoCompleteTag,
 } from '@choc-ui/chakra-autocomplete';
-import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMetamask } from '../../Hooks';
 import { ContactFormProps } from '../../Types';
 import { HiClipboardCopy } from 'react-icons/hi';
 
 const ContactForm = (props: ContactFormProps) => {
-  const { t } = useTranslation();
-  const { account } = useMetamask();
   const [name, setName] = useState(props.name ?? '');
   const [lastName, setLastName] = useState(props.lastName ?? '');
   const [phone, setPhone] = useState(props.phone ?? '');
@@ -36,9 +34,11 @@ const ContactForm = (props: ContactFormProps) => {
   const [tags, setTags] = useState(props.tags ?? []);
   const [profilePicFile, setProfilePicFile] = useState<File | null>(null);
   const [publicAddress, setPublicAddress] = useState<string | null>(props.publicAddress?.toString() ?? null);
+  const [isContactOwner, setIsContactOwner] = useState(false);
+  const { account } = useMetamask();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const [isContactOwner, setIsContactOwner] = useState(false);
+  const { t } = useTranslation();
   const isWalletAddressWalidated = !!(publicAddress ?? '').match(/^0x[a-fA-F0-9]{40}$/);
 
   useEffect(() => {

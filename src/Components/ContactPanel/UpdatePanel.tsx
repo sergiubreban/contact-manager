@@ -1,7 +1,7 @@
-import { ContactFormData, ContactPanelProps } from '../../Types';
 import { useState } from 'react';
-import ContactForm from '../ContactForm';
 import { ref, uploadBytes } from 'firebase/storage';
+import { ContactFormData, ContactPanelProps } from '../../Types';
+import ContactForm from '../ContactForm';
 import { useAppToast, useFirestore, useStorage } from '../../Hooks';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
@@ -11,11 +11,11 @@ interface UpdateContactPanelProps extends ContactPanelProps {
 }
 const UpdateContactPanel = ({ contact, onClose }: UpdateContactPanelProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const toast = useAppToast();
   const firestore = useFirestore();
+  const storage = useStorage();
+  const toast = useAppToast();
   const { t } = useTranslation();
 
-  const storage = useStorage();
   const handleContacUpdate = async (form: ContactFormData) => {
     setIsLoading(true);
     const { profilePicFile, ...fields } = form;

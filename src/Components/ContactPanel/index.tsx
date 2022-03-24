@@ -7,12 +7,13 @@ import DisplayContactPanel from './DisplayPanel';
 import UpdateContactPanel from './UpdatePanel';
 
 const DisplayPanel = (props: ContactPanelProps) => {
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const { contact } = props;
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const { account } = useMetamask();
+  const { t } = useTranslation();
+
   const isUserContact = !!account && contact?.publicAddress === account.toString();
 
-  const { t } = useTranslation();
   return (
     <Stack>
       {showUpdateForm ? (

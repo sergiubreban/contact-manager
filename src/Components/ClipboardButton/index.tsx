@@ -1,16 +1,17 @@
-import { IconButton, Text, Tooltip } from '@chakra-ui/react';
 import { MouseEvent, useState } from 'react';
+import { IconButton, Text, Tooltip } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useAppToast } from '../../Hooks';
 import { ClipboardButtonProps } from '../../Types';
 
 const ClipboardButton = ({ text, ...buttonProps }: ClipboardButtonProps) => {
   const [copied, setCopied] = useState(false);
-  const { t } = useTranslation();
   const toast = useAppToast();
+  const { t } = useTranslation();
 
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+
     navigator.clipboard.writeText(text);
     setCopied(true);
 

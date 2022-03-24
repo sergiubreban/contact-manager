@@ -1,6 +1,6 @@
+import { useMemo } from 'react';
 import { Accordion, Center, Container, Flex, Heading, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { DocumentData } from 'firebase/firestore';
-import { useMemo } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useTranslation } from 'react-i18next';
 import { useContactRef, useMetamask } from '../../Hooks';
@@ -23,28 +23,33 @@ const ContactList = () => {
     [value]
   );
 
-  const documents = useMemo(() => {
+  const [documents, hasAccountVerified] = useMemo(() => {
     if (!value) {
-      return [];
+      return [[], false];
     }
 
     const documents: DocumentData[] = [];
+    let userDocument: DocumentData | undefined;
 
-    // map and sort data in one loop
     for (let i = 0; i < value.docs.length; i++) {
       const doc = value.docs[i];
       const data = doc.data();
       const isUserContact = !!account && data?.publicAddress === account.toString();
-      const indexToInsert = isUserContact ? 0 : documents.length;
       const parsedDocument = { ...data, id: doc.id };
 
-      documents.splice(indexToInsert, 0, parsedDocument);
+      if (isUserContact) {
+        userDocument = parsedDocument;
+      } else {
+        documents.push(parsedDocument);
+      }
     }
 
-    return documents;
-  }, [value, account]);
+    if (userDocument) {
+      documents.unshift(userDocument);
+    }
 
-  const hasAccountVerified = !!account && documents.find((doc) => doc?.publicAddress === account.toString())?.verified;
+    return [documents, !!account && userDocument?.verified];
+  }, [value, account]);
 
   return (
     <Container>

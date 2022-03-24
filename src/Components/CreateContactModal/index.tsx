@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   IconButton,
   Modal,
@@ -15,15 +16,14 @@ import { useAppToast, useContactRef, useStorage } from '../../Hooks';
 import { ContactFormData, CreateContactModalProps } from '../../Types';
 import { IoIosAddCircle } from 'react-icons/io';
 import ContactForm from '../ContactForm';
-import { useState } from 'react';
 
 const CreateContactModal = ({ distinctTags, showUseWalletSwitch }: CreateContactModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation();
   const contactModelRef = useContactRef();
   const storage = useStorage();
   const toast = useAppToast();
+  const { t } = useTranslation();
 
   const submitNewContact = async (form: ContactFormData) => {
     setIsLoading(true);
