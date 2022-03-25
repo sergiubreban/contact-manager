@@ -102,15 +102,27 @@ feature. However we understand that this tool wouldn’t be useful if you couldn
 customize it when you are ready for it.
 
 
+## Guideline
+This project is made
+* Using latest features of ECMAScript 2020(ES2020)
+  * [Whats new?](https://www.digitalocean.com/community/tutorials/js-es2020)
+* Following [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript)
+
+
+## Infrastructure 
+
+<img src="./firebase-arch.jpg">
+
+Using firebase database and storage as a service leads to a straight forward architecture. Each client app will sync with the firebase SDK to read and write data.
+
 ## CI/CD
 - We are using git hooks 
 1. pre-commit -> will run the linter 
 1. pre-push -> will run the tests 
 - We are using github actions to deploy the app to firebase. Check out [yml file](./.github/workflows/firebase-hosting-merge.yml)
 
-
-## Guideline
-This project is made
-* Using latest features of ECMAScript 2020(ES2020)
-  * [Whats new?](https://www.digitalocean.com/community/tutorials/js-es2020)
-* Following [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript)
+## Future improvements
+- add pagination to the contact list
+- send user notification when something changed in the service(currently, any DB change is reflected in the app without refreshing the page, but no notification is displayed for the user)
+- search functionality
+- create detailed architecture schemas and documentation
