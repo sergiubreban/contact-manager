@@ -12,6 +12,9 @@ Tags:
 <img alt="Firebase logo" src="https://img.shields.io/badge/-Firebase-61DAFB?logo=firebase&logoColor=white&style=plastic"/>
 <img alt="GitHub issues" src="https://img.shields.io/badge/-Github.actions-61DAFB?logo=github-actions&logoColor=white&style=plastic"/>
 
+
+[Demo](https://keyko-contact.web.app/)
+
 ## Basic Overview
 This web application is used to manage contacts using a global database to store information worldwide. A basic user can view and add as many contacts he wants, however this information is not verified and nobody can guarantee if the information is correct or not. 
 
@@ -116,10 +119,10 @@ This project is made
 Using firebase database and storage as a service leads to a straight forward architecture. Each client app will sync with the firebase SDK to read and write data.
 
 ## CI/CD
-- We are using git hooks 
+- We are using git hooks (husky npm). Check out the [configuration folder](./.husky)
 1. pre-commit -> will run the linter 
 1. pre-push -> will run the tests 
-- We are using github actions to deploy the app to firebase. Check out [yml file](./.github/workflows/firebase-hosting-merge.yml)
+- We are using github actions to deploy the app to firebase. Check out the [configuration file](./.github/workflows/firebase-hosting-merge.yml)
 
 ## Future improvements
 - add pagination to the contact list
